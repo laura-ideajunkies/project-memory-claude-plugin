@@ -1,0 +1,18 @@
+{
+  "name": "project-memory",
+  "description": "Warm-start project folders for agent work. project-init scaffolds CLAUDE.md, memory.md and lessons.md and interviews you for context; compound-learning updates memory at the end of each session and promotes recurring corrections into durable lessons.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Laura Richards / Idea Junkies",
+    "url": "https://github.com/laura-ideajunkies"
+  },
+  "repository": "https://github.com/laura-ideajunkies/project-memory-claude-plugin",
+  "license": "MIT",
+  "keywords": [
+    "memory",
+    "project-setup",
+    "claude-md",
+    "lessons",
+    "compounding"
+  ]
+}
