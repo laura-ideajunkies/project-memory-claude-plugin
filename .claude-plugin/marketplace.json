@@ -11,11 +11,7 @@
       "source": "./",
       "description": "project-init scaffolds CLAUDE.md, memory.md and lessons.md; compound-learning keeps memory current and promotes recurring corrections into lessons.",
       "version": "0.1.0",
-      "keywords": [
-        "memory",
-        "project-setup",
-        "lessons"
-      ]
+      "keywords": ["memory", "project-setup", "lessons"]
     }
   ]
 }

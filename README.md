@@ -25,7 +25,7 @@ The promotion threshold is deliberate. A one-off correction stays in memory; a l
 **Claude Code** - the repo doubles as a plugin marketplace:
 
 ```
-/plugin marketplace add laura-ideajunkies/project-memory-claude-plugin
+/plugin marketplace add https://github.com/laura-ideajunkies/project-memory-claude-plugin
 /plugin install project-memory@project-memory
 ```
 
