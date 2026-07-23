@@ -1,7 +1,11 @@
 ---
 name: compound-learning
 description: End-of-session memory updater. Reflects on the current Cowork conversation, extracts anything worth carrying forward, updates the project's memory.md file, and promotes recurring corrections into lessons.md. Use manually at the end of a working session, or set up as a daily scheduled task so memory stays current without you having to think about it.
-allowed-tools: Read, Write, Edit, Grep
+allowed-tools:
+  - Read
+  - Write
+  - Edit
+  - Grep
 ---
 
 # Compound Learning Skill
