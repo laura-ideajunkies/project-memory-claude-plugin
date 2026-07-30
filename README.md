@@ -2,11 +2,11 @@
 
 Two skills that stop agent sessions starting cold.
 
-Claude Code and Cowork sessions begin with no memory of the last one. Decisions get re-litigated, preferences get re-stated, the same mistakes get corrected twice. This pair fixes that with three plain markdown files per project and a routine that keeps them current - and the corrections compound: make the same mistake twice and it becomes a standing lesson the project never forgets.
+Claude Code and Cowork sessions begin with no memory of the last one. Decisions get re-litigated, preferences get re-stated, the same mistakes get corrected twice. This pair fixes that by using three plain markdown files per project (includes claude.md) and a routine that keeps them current - and the corrections compound: make the same mistake twice and it becomes a standing lesson the project never forgets.
 
 ## The three files
 
-- **`CLAUDE.md`** - standing context. What the project is, who's involved, how to work in this folder. Loads every session.
+- **`CLAUDE.md`** - standard project instruction file created by Claude Cowork/ Code; standing context. What the project is, who's involved, how to work in this folder. Loads every session.
 - **`memory.md`** - the running log. Dated entries, newest first: decisions, preferences, corrections, open threads. What was true lately.
 - **`lessons.md`** - the distillation. When a correction in memory recurs, it graduates here as one dated line. What stays true.
 
