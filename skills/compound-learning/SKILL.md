@@ -10,9 +10,9 @@ allowed-tools:
 
 # Compound Learning Skill
 
-**Purpose:** Cowork doesn't auto-update memory the way Chat does. Every session starts cold unless something tells Claude what mattered last time. This skill is that something.
+**Purpose:** Claude's built-in memory (account memory, project memory in claude.ai Projects, project memory in Cowork and Claude Code Projects) lives in your Claude account, saved as topics while you chat. It is useful, but it is not in the folder: it cannot be versioned with the work, read by a teammate or a different tool, or audited line by line, and sessions that run only on your computer (legacy local-only Cowork tasks, and third-party or self-hosted desktop deployments) do not use it at all. A Cowork session on a local folder runs in the cloud and does use it. This skill keeps the record where the work is - a dated `memory.md` in the project folder that any session, on any surface, reads at the start and that compounds into `lessons.md`.
 
-Run it at the end of a session — or schedule it to run at the end of every day — and it captures the parts of the conversation worth keeping into the project's `memory.md` file. Next time you open the project, Claude reads `memory.md` first and picks up where you left off.
+Run it at the end of a session - or schedule it to run at the end of every day - and it captures the parts of the conversation worth keeping into `memory.md`. Next time you open the project, Claude reads `memory.md` first and picks up where you left off.
 
 ## When to use
 
@@ -35,6 +35,8 @@ What it does NOT capture: the play-by-play of the conversation, code snippets th
 ## Process
 
 ### Step 1: Read existing memory.md
+
+Locate the file first. In a session with a working folder (Cowork folder, local repo, or a repository attached to a cloud session) it is `memory.md` in that folder. In a classic claude.ai Project with no working folder it is the Project doc `claude/memory.md`. In a Claude Code Project thread with no repository attached, the project's own memory files stand in for it: write the entry as a dated file in project memory with the same structure as below, and add one line for it to the `MEMORY.md` index, rather than creating a `memory.md` the project will never read.
 
 Read the project's `memory.md` if it exists. If it doesn't, create one with this header:
 
@@ -113,9 +115,14 @@ If the user says "looks good" or equivalent, finish. If they want changes, apply
 
 To run this automatically:
 
-1. In Cowork, set up a scheduled task: "Run /compound-learning in [project folder] every day at [time]"
-2. Recommended time: end of your working day (e.g. 18:00)
-3. The scheduled run will skip the confirmation step (no user present) — it commits the entry directly, dated and timestamped, and you can review next time you open the project
+1. In Cowork, ask Claude to schedule it: "Run compound-learning on [project or folder] every weekday at 18:00". Scheduled tasks are listed under Scheduled in the sidebar.
+2. Scheduled tasks run in the cloud by default. A cloud run reaches a local folder only through the Claude Desktop app on that computer, so for a local folder either leave the desktop app open at the scheduled time or keep the task running on the computer. A cloud folder, a Cowork project, or an attached repository needs nothing open.
+3. Scheduled runs load only the skills enabled for your claude.ai account (Customize > Skills or Customize > Plugins), not skills that exist only in `~/.claude/skills/` on your machine. Enable the plugin on your account before scheduling it.
+4. The scheduled run skips the confirmation step (no user present) - it commits the entry directly with a date and time stamp, and you can review next time you open the project.
+
+## Built-in memory
+
+Where the session has Claude's built-in memory on (claude.ai chats, cloud Cowork sessions, Claude Code Projects), Claude may also save topics to it as the conversation goes, and the user can say "remember this" to save something directly. Treat `memory.md` as the project's record. A session reads it at the start whether or not built-in memory is available, and pm-reflect prunes it. Never skip writing an entry on the grounds that built-in memory already holds it.
 
 ## Guardrails
 

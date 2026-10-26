@@ -1,15 +1,19 @@
 ---
 name: project-init
-description: Set up a new project folder properly - CLAUDE.md, memory.md and lessons.md, wired together and compatible with the compound-learning skill. Use whenever the user says "set up this project", "init this project", "project init", "new project folder", "scaffold this folder", or starts working in a new or empty folder (Cowork cloud folder or local repo) that has no CLAUDE.md. Also use when the user asks to add memory or lessons files to an existing project. In a session attached to a Claude Project with no working folder, creates the files as Project docs and gives the user a project-instructions block to paste in.
+description: Set up a new project folder properly - CLAUDE.md, memory.md and lessons.md, wired together and compatible with the compound-learning skill. Use whenever the user says "set up this project", "init this project", "project init", "new project folder", "scaffold this folder", or starts working in a new or empty folder (Cowork cloud folder or local repo) that has no CLAUDE.md. Also use when the user asks to add memory or lessons files to an existing project. In a classic claude.ai Project with no working folder, creates the files as Project docs and gives the user a project-instructions block to paste in; in a Claude Code Project with no repository, uses the project's own memory and instructions instead.
 ---
 
 # Project init
 
-Sets up a project folder so every future session starts warm: standing context in CLAUDE.md, session-to-session memory in memory.md, durable lessons in lessons.md. Works the same in Cowork cloud folders, local repos, and cloud projects (sessions attached to a Claude Project where files persist as Project docs).
+Sets up a project folder so every future session starts warm: standing context in CLAUDE.md, session-to-session memory in memory.md, durable lessons in lessons.md. Works in Cowork folders, local repos, repositories attached to cloud sessions, and Claude Projects with no working folder.
 
 ## Step 0 - detect where the files will live
 
-If the session has a working folder (Cowork cloud folder or local repo), the files are ordinary files in that folder - follow the steps as written. If the session is attached to a Claude Project and has no persistent working folder (the workspace is ephemeral), the files must be created as Project docs instead: `claude/CLAUDE.md`, `claude/memory.md`, `claude/lessons.md`, written with the Projects tool. In that mode, follow the steps below with those paths, and finish with the extra step in **Cloud projects** at the end.
+Three cases:
+
+- **Working folder** (a Cowork folder or project folder, a local repo, or a repository attached to a cloud session or a Claude Code Project thread): the files are ordinary files in that folder. Follow the steps as written. In Cowork, the folder's `CLAUDE.md` is also what the app shows as the folder's instructions, and Claude may edit it during a session; a folder with no `CLAUDE.md` falls back to `AGENTS.md` where one exists.
+- **Claude Code Project (beta) with no repository attached**: the project already has memory files Claude writes itself (a `MEMORY.md` index plus topic files, under Project settings > Memory) and project instructions Claude can change on request. Do not create a parallel set of files. Put the interview answers into the project instructions and finish with **Claude Code Projects** at the end.
+- **Classic claude.ai Project (chat) with no working folder**: the workspace is ephemeral. Create the files as Project knowledge docs `claude/CLAUDE.md`, `claude/memory.md`, `claude/lessons.md` if the session has a tool that writes Project docs; otherwise hand the user the three files to add to Project knowledge themselves. Follow the steps below with those paths, and finish with **Classic claude.ai Projects** at the end.
 
 ## Step 1 - check what exists
 
@@ -70,9 +74,9 @@ Durable lessons for this project - things that hold across sessions, promoted fr
 
 One short confirmation listing the files created and, in one line each, what went into CLAUDE.md. Offer to adjust. Do not read the files back in full.
 
-## Cloud projects - extra step
+## Classic claude.ai Projects - extra step
 
-Only in cloud-project mode (files created as Project docs). Project docs do not load automatically at the start of each conversation the way a folder's CLAUDE.md does, and Claude cannot edit a Project's custom instructions field itself. So after creating the docs, give the user this block verbatim in a code block and tell them to paste it into the Project's custom instructions (project page on claude.ai or the desktop app - "Set project instructions"):
+Only when the files were created as Project knowledge docs. Project knowledge does not load as binding instructions the way a folder's CLAUDE.md does, and in a classic Project the instructions field is edited by the user, not by Claude. So after creating the docs, give the user this block verbatim in a code block and tell them to paste it into the Project's instructions (project page on claude.ai or the desktop app - "Set project instructions"):
 
 ```
 ## Project memory
@@ -95,6 +99,16 @@ This project uses three Claude-managed docs. Follow this in every session:
 ```
 
 Tell the user the block is deliberately generic - identical for every project set up this way, since everything project-specific lives in CLAUDE.md - so it can be pasted as-is into any project that has these docs. Setup is not complete until the user has been given this block.
+
+Claude's own project memory runs alongside these docs: it saves topics as you chat and anything the user asks Claude to remember reaches the next conversation. Say so, and say that `claude/memory.md` remains the reviewable, portable record the compound-learning and pm-reflect skills work on.
+
+## Claude Code Projects (beta) - extra step
+
+Only for a Claude Code Project with no repository attached. Every cloud thread reads the project's `MEMORY.md` index at start and opens the other memory files when it needs them, and the user can edit or delete them under Project settings > Memory. So:
+
+1. Put the interview answers into the project instructions - ask Claude to update them, or edit them under Project settings > Memory > Project instructions - using the same headings as the CLAUDE.md template.
+2. Ask Claude to remember two standing rules in project memory: at the end of a working session, run compound-learning and record decisions, preferences, corrections and open threads as a dated entry in project memory; when a correction recurs, record it as a single dated lesson.
+3. If a repository is attached later, run project-init again inside that repository so `memory.md` and `lessons.md` live with the code. Cloud threads read each attached repository's `CLAUDE.md` at start.
 
 ## Rules
 
