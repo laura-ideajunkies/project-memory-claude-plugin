@@ -2,7 +2,7 @@
 
 Three skills that stop agent sessions starting cold.
 
-Claude now has built-in memory in claude.ai chats, in cloud Cowork sessions and in Projects, saved as topics while you chat and held in your Claude account. That memory is not in the folder. It cannot be versioned with the work, read by a teammate or another tool, or audited line by line, and local Cowork sessions and self-hosted deployments do not use it. So decisions still get re-litigated, preferences re-stated, the same mistakes corrected twice. These three skills fix that with three plain markdown files per project folder and a routine that keeps them current - and the corrections compound: make the same mistake twice and it becomes a standing lesson the project never forgets.
+Claude now has built-in memory in claude.ai chats, in cloud Cowork sessions and in Projects, saved as topics while you chat and held in your Claude account. That memory is not in the folder. It cannot be versioned with the work, read by a teammate or another tool, or audited line by line, and sessions that run only on your computer (legacy local-only Cowork tasks, and third-party or self-hosted desktop deployments) do not use it. A Cowork session on a local folder runs in the cloud and does use it. So decisions still get re-litigated, preferences re-stated, the same mistakes corrected twice. These three skills fix that with three plain markdown files per project folder and a routine that keeps them current - and the corrections compound: make the same mistake twice and it becomes a standing lesson the project never forgets.
 
 ## The three files
 
@@ -30,7 +30,7 @@ The promotion threshold is deliberate. A one-off correction stays in memory; a l
 | Who writes it | Claude, as you chat, or when you say "remember this" | Claude, when you run compound-learning |
 | Reviewable | Settings > Your Claude > Memory, as topics | Open the file; prune with pm-reflect |
 | Travels with the work | No | Yes - commit it, share it, open it in any tool |
-| Works in local Cowork sessions and self-hosted deployments | No | Yes |
+| Works in computer-only sessions (legacy local-only tasks, third-party or self-hosted desktop) | No | Yes |
 
 Use both. Built-in memory catches what you say in passing; the files are the record a session reads at the start and the one that compounds into lessons.
 

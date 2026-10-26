@@ -10,7 +10,7 @@ allowed-tools:
 
 # Compound Learning Skill
 
-**Purpose:** Claude's built-in memory (account memory, project memory in claude.ai Projects, project memory in Cowork and Claude Code Projects) lives in your Claude account, saved as topics while you chat. It is useful, but it is not in the folder: it cannot be versioned with the work, read by a teammate or a different tool, or audited line by line, and local Cowork sessions and self-hosted deployments do not use it at all. This skill keeps the record where the work is - a dated `memory.md` in the project folder that any session, on any surface, reads at the start and that compounds into `lessons.md`.
+**Purpose:** Claude's built-in memory (account memory, project memory in claude.ai Projects, project memory in Cowork and Claude Code Projects) lives in your Claude account, saved as topics while you chat. It is useful, but it is not in the folder: it cannot be versioned with the work, read by a teammate or a different tool, or audited line by line, and sessions that run only on your computer (legacy local-only Cowork tasks, and third-party or self-hosted desktop deployments) do not use it at all. A Cowork session on a local folder runs in the cloud and does use it. This skill keeps the record where the work is - a dated `memory.md` in the project folder that any session, on any surface, reads at the start and that compounds into `lessons.md`.
 
 Run it at the end of a session - or schedule it to run at the end of every day - and it captures the parts of the conversation worth keeping into `memory.md`. Next time you open the project, Claude reads `memory.md` first and picks up where you left off.
 
