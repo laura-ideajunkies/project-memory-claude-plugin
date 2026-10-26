@@ -9,7 +9,7 @@ description: Memory hygiene review for project-memory projects. Reads memory.md,
 
 ## Step 1 - locate and read the files
 
-Same file location logic as project-init: in a session with a working folder (Cowork cloud folder or local repo), read `memory.md`, `lessons.md` and `CLAUDE.md` from the current folder. In a session attached to a Claude Project with no working folder, read the Project docs `claude/memory.md`, `claude/lessons.md` and `claude/CLAUDE.md` instead.
+Same file location logic as project-init: in a session with a working folder (Cowork folder, local repo, or an attached repository), read `memory.md`, `lessons.md` and `CLAUDE.md` from the current folder. In a classic claude.ai Project with no working folder, read the Project docs `claude/memory.md`, `claude/lessons.md` and `claude/CLAUDE.md` instead. In a Claude Code Project thread with no repository, review the project's own memory files (the `MEMORY.md` index and the files it points to) and the project instructions.
 
 If any file is missing, say which and review the ones that exist. If none exist, say the project has no memory files and offer project-init instead.
 
