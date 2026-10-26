@@ -25,7 +25,7 @@ Read all three files together - staleness is often visible only across files (a 
 - **Dead lessons** - lessons.md lines about tools, formats or constraints the project no longer uses
 - **Bloat** - memory entries that captured play-by-play or detail that belongs in a linked file
 
-Do not flag: anything from the last 7 days, recurring corrections (they are the early warning lessons.md depends on), or anything you are merely unsure about. When in doubt, leave it alone - this skill removes only what is clearly dead.
+Do not flag: anything from the last 7 days, recurring corrections (they are the signal lessons.md depends on), or anything you are merely unsure about. When in doubt, leave it alone - this skill removes only what is clearly dead.
 
 ## Step 3 - present recommendations
 

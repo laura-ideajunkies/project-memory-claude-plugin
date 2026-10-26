@@ -118,11 +118,11 @@ To run this automatically:
 1. In Cowork, ask Claude to schedule it: "Run compound-learning on [project or folder] every weekday at 18:00". Scheduled tasks are listed under Scheduled in the sidebar.
 2. Scheduled tasks run in the cloud by default. A cloud run reaches a local folder only through the Claude Desktop app on that computer, so for a local folder either leave the desktop app open at the scheduled time or keep the task running on the computer. A cloud folder, a Cowork project, or an attached repository needs nothing open.
 3. Scheduled runs load only the skills enabled for your claude.ai account (Customize > Skills or Customize > Plugins), not skills that exist only in `~/.claude/skills/` on your machine. Enable the plugin on your account before scheduling it.
-4. The scheduled run skips the confirmation step (no user present) - it commits the entry directly, dated and timestamped, and you can review next time you open the project.
+4. The scheduled run skips the confirmation step (no user present) - it commits the entry directly with a date and time stamp, and you can review next time you open the project.
 
 ## Built-in memory
 
-Where the session has Claude's built-in memory on (claude.ai chats, cloud Cowork sessions, Claude Code Projects), Claude may also save topics to it as the conversation goes, and the user can say "remember this" to save something directly. Treat `memory.md` as the record for the project: it is what a session reads at the start whether or not built-in memory is available, and it is what pm-reflect prunes. Never skip writing an entry on the grounds that built-in memory already holds it.
+Where the session has Claude's built-in memory on (claude.ai chats, cloud Cowork sessions, Claude Code Projects), Claude may also save topics to it as the conversation goes, and the user can say "remember this" to save something directly. Treat `memory.md` as the project's record. A session reads it at the start whether or not built-in memory is available, and pm-reflect prunes it. Never skip writing an entry on the grounds that built-in memory already holds it.
 
 ## Guardrails
 

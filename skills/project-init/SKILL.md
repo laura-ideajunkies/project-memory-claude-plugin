@@ -104,7 +104,7 @@ Claude's own project memory runs alongside these docs: it saves topics as you ch
 
 ## Claude Code Projects (beta) - extra step
 
-Only for a Claude Code Project with no repository attached. Every cloud thread reads the project's `MEMORY.md` index at start and opens the other memory files when it needs them, and the user can read, edit and delete them under Project settings > Memory. So:
+Only for a Claude Code Project with no repository attached. Every cloud thread reads the project's `MEMORY.md` index at start and opens the other memory files when it needs them, and the user can edit or delete them under Project settings > Memory. So:
 
 1. Put the interview answers into the project instructions - ask Claude to update them, or edit them under Project settings > Memory > Project instructions - using the same headings as the CLAUDE.md template.
 2. Ask Claude to remember two standing rules in project memory: at the end of a working session, run compound-learning and record decisions, preferences, corrections and open threads as a dated entry in project memory; when a correction recurs, record it as a single dated lesson.

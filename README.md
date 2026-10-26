@@ -32,7 +32,7 @@ The promotion threshold is deliberate. A one-off correction stays in memory; a l
 | Travels with the work | No | Yes - commit it, share it, open it in any tool |
 | Works in computer-only sessions (legacy local-only tasks, third-party or self-hosted desktop) | No | Yes |
 
-Use both. Built-in memory catches what you say in passing; the files are the record a session reads at the start and the one that compounds into lessons.
+Use both. Built-in memory catches what you say in passing. A session reads the files at the start, and they compound into lessons.
 
 ## Install
 
@@ -55,7 +55,7 @@ In a new project folder: "set up this project". Answer the questions. From then 
 
 Scheduled tasks run in the cloud by default. A cloud run reaches a local folder only through the open Claude Desktop app, so for a local folder leave the app open at the scheduled time; a Cowork project folder or an attached repository needs nothing open.
 
-In a Claude Code Project (beta) with no repository, the skills use the project's own memory files and instructions instead of creating a parallel set. Checked against Anthropic's Cowork, Projects and memory documentation as of October 2026.
+In a Claude Code Project (beta) with no repository, the skills use the project's own memory files and instructions instead of creating a parallel set. Checked against Anthropic's Cowork and memory documentation as of October 2026.
 
 ## Structure
 
