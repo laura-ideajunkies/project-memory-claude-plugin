@@ -1,6 +1,6 @@
 ---
 name: compound-learning
-description: End-of-session memory updater. Reflects on the current Cowork conversation, extracts anything worth carrying forward, updates the project's memory.md file, and promotes recurring corrections into lessons.md. Use manually at the end of a working session, or set up as a daily scheduled task so memory stays current without you having to think about it.
+description: End-of-session memory updater. Reflects on the current conversation, extracts decisions, preferences, context, corrections and open threads worth carrying forward, and writes them to the project's memory - memory.md in a working folder, or the Project's native memory in a Claude Project. Lesson promotion is handled by pm-reflect. Use at the end of a working session, as part of close-out, or as a daily scheduled task.
 allowed-tools:
   - Read
   - Write
@@ -10,35 +10,40 @@ allowed-tools:
 
 # Compound Learning Skill
 
-**Purpose:** Claude's built-in memory (account memory, project memory in claude.ai Projects, project memory in Cowork and Claude Code Projects) lives in your Claude account, saved as topics while you chat. It is useful, but it is not in the folder: it cannot be versioned with the work, read by a teammate or a different tool, or audited line by line, and sessions that run only on your computer (legacy local-only Cowork tasks, and third-party or self-hosted desktop deployments) do not use it at all. A Cowork session on a local folder runs in the cloud and does use it. This skill keeps the record where the work is - a dated `memory.md` in the project folder that any session, on any surface, reads at the start and that compounds into `lessons.md`.
-
-Run it at the end of a session - or schedule it to run at the end of every day - and it captures the parts of the conversation worth keeping into `memory.md`. Next time you open the project, Claude reads `memory.md` first and picks up where you left off.
+**Purpose:** every session starts cold unless something tells Claude what mattered last time. This skill captures the parts of the conversation worth keeping so the next session picks up where this one left off. It records; pm-reflect decides what becomes a lesson.
 
 ## When to use
 
 - Manually at the end of a working session (`/compound-learning` or "run compound learning")
-- As a scheduled task — typically end of day, scoped to one or more project folders
-- After a session where something material changed: a decision, a preference, a new piece of context, a recurring gotcha
+- As step 2 of close-out
+- As a scheduled task, typically end of day
+- After a session where something material changed
+
+## Storage mode
+
+Use the same detection as pm-reflect:
+
+- **Folder mode** - persistent working folder (Cowork cloud folder or local repo): write to `memory.md` in that folder.
+- **Project memory mode** - session bound to a Claude Project with the memory tools available: write to `<root>/project-memory/memory.md` in the Project's native memory, under the subtree named in the session context. Write it directly; never hand the user a file to save. If the file does not exist but a legacy `claude/memory.md` Project doc does, run pm-reflect's migration first.
+- **Neither** - say this session cannot write project memory and stop.
 
 ## What it captures
 
-Five things, scanned in this order:
+Scanned in this order:
 
-1. **Decisions made** — anything the user committed to, even informally ("we'll go with option A", "skip that for now")
-2. **Preferences expressed** — voice, tone, format, working style, tools, anything that should hold for future sessions
-3. **Context the user added** — projects, deadlines, people, constraints, the why behind the work
-4. **Gotchas and corrections** — moments where Claude went wrong and was corrected; the underlying reason matters more than the surface fix
-5. **Open threads** — work-in-progress that should be picked up next session, with enough detail to restart cleanly
+1. **Decisions made** - anything the user committed to, even informally
+2. **Preferences expressed** - voice, tone, format, working style, tools
+3. **Context the user added** - projects, deadlines, people, constraints, the why behind the work
+4. **Corrections** - moments where Claude went wrong and was corrected, with the underlying reason
+5. **Open threads** - work in progress, with enough detail to restart cleanly
 
-What it does NOT capture: the play-by-play of the conversation, code snippets that are already in files, summaries of what was done (the work itself is the record).
+Not captured: play-by-play, code already in files, summaries of what was done.
 
 ## Process
 
-### Step 1: Read existing memory.md
+### Step 1 - read existing memory
 
-Locate the file first. In a session with a working folder (Cowork folder, local repo, or a repository attached to a cloud session) it is `memory.md` in that folder. In a classic claude.ai Project with no working folder it is the Project doc `claude/memory.md`. In a Claude Code Project thread with no repository attached, the project's own memory files stand in for it: write the entry as a dated file in project memory with the same structure as below, and add one line for it to the `MEMORY.md` index, rather than creating a `memory.md` the project will never read.
-
-Read the project's `memory.md` if it exists. If it doesn't, create one with this header:
+Read memory.md (or its native equivalent). If missing, create it with this header:
 
 ```markdown
 # Project Memory
@@ -46,112 +51,47 @@ Read the project's `memory.md` if it exists. If it doesn't, create one with this
 Auto-updated by the compound-learning skill. Most recent entries at the top.
 ```
 
-Scan existing entries so you don't duplicate them. If an entry covers the same ground as something new, update the existing entry rather than adding a duplicate.
+In Project memory mode, add the native header above it (name: memory, a one-line description, sources: [chat]) and tag every content line `[stated]`.
 
-### Step 2: Reflect on the session
+Scan existing entries so you don't duplicate them. Update an existing entry rather than adding a duplicate.
 
-Look back over the conversation. For each of the five capture categories above, ask:
+### Step 2 - reflect on the session
 
-- Is there something here a future session would benefit from knowing?
-- Would not having this make Claude re-ask a question, repeat a mistake, or fail to apply something the user has already explained?
-- Is this durable (a preference, a constraint, a decision) or ephemeral (a one-off task)?
+For each capture category ask whether a future session would re-ask a question, repeat a mistake or miss something the user explained without it. Keep durable items only.
 
-Only keep durable items.
+### Step 3 - write the entry
 
-### Step 3: Write the entry
-
-Add a new dated entry to the top of `memory.md`, under the header. Use this structure:
+Add a new dated entry at the top:
 
 ```markdown
 ## YYYY-MM-DD
 
 **Decisions:**
-- [decision 1]
-- [decision 2]
+- [decision]
 
 **Preferences:**
-- [preference 1]
+- [preference]
 
 **Context:**
-- [new context 1]
+- [context]
 
 **Corrections:**
-- [thing I got wrong and why]
+- [what went wrong, the user's words if short, and the underlying cause]
 
 **Open threads:**
 - [WIP item with enough detail to resume]
 ```
 
-Drop any category that has no entries — don't write empty headers.
+Drop empty categories. One sentence per bullet; link to files for detail.
 
-Keep each bullet short. One sentence. If something needs more explanation, link to the file or doc where the detail lives rather than repeating it.
+Record corrections faithfully, with the user's own words where short. pm-reflect reads them as evidence for pending lessons, so the quote matters more than a tidy paraphrase. Do not write to lessons.md or pending-lessons.md - that is pm-reflect's job.
 
-### Step 3.5: Check for promotion to lessons.md
+### Step 4 - confirm
 
-While writing a **Corrections** bullet, compare it against corrections already in `memory.md`. Match on the underlying cause, never the surface wording - "used em dashes again" and "wrong punctuation in the report" can be the same lesson.
-
-If the same underlying correction has appeared before:
-
-1. Write it to `lessons.md` as one dated line stating the lesson positively ("Always X" / "Never Y - it causes Z"). Create `lessons.md` if missing, headed:
-
-   ```markdown
-   # Lessons
-
-   Durable lessons for this project - things that hold across sessions, promoted from memory.md when a correction or gotcha recurs. One line each, dated.
-   ```
-
-2. In the new memory entry, record the correction with the note "(promoted to lessons.md)" rather than logging the same mistake as though it were new.
-3. Leave earlier occurrences in `memory.md` untouched - the history stays.
-
-Promote only on recurrence. A one-off correction stays in memory; a lesson is something the project keeps teaching.
-
-### Step 4: Confirm
-
-Tell the user what was added. Show the new entry, and call out any promotion to lessons.md separately. Ask if anything should be edited or removed before you finish. Wait for response.
-
-If the user says "looks good" or equivalent, finish. If they want changes, apply them and confirm again.
-
-## Scheduling
-
-To run this automatically:
-
-1. In Cowork, ask Claude to schedule it: "Run compound-learning on [project or folder] every weekday at 18:00". Scheduled tasks are listed under Scheduled in the sidebar.
-2. Scheduled tasks run in the cloud by default. A cloud run reaches a local folder only through the Claude Desktop app on that computer, so for a local folder either leave the desktop app open at the scheduled time or keep the task running on the computer. A cloud folder, a Cowork project, or an attached repository needs nothing open.
-3. Scheduled runs load only the skills enabled for your claude.ai account (Customize > Skills or Customize > Plugins), not skills that exist only in `~/.claude/skills/` on your machine. Enable the plugin on your account before scheduling it.
-4. The scheduled run skips the confirmation step (no user present) - it commits the entry directly with a date and time stamp, and you can review next time you open the project.
-
-## Built-in memory
-
-Where the session has Claude's built-in memory on (claude.ai chats, cloud Cowork sessions, Claude Code Projects), Claude may also save topics to it as the conversation goes, and the user can say "remember this" to save something directly. Treat `memory.md` as the project's record. A session reads it at the start whether or not built-in memory is available, and pm-reflect prunes it. Never skip writing an entry on the grounds that built-in memory already holds it.
+Show the new entry and ask if anything should change. When run inside close-out, skip this and return the entry to close-out, which confirms everything once. In a scheduled run, commit directly.
 
 ## Guardrails
 
-**Do:**
-- Keep entries durable and short
-- Update existing entries rather than duplicating
-- Link out to files for detail rather than copying detail in
-- Date every entry
-- Promote a correction to lessons.md the second time it appears, never the first
+**Do:** keep entries durable and short, update rather than duplicate, link out for detail, date every entry.
 
-**Do not:**
-- Capture conversation history as narrative
-- Write entries longer than three lines per bullet
-- Capture sensitive personal information (financial details, health, government IDs, addresses, passwords) unless the user explicitly asks
-- Edit or remove existing entries without flagging the change
-
-## Example output
-
-```markdown
-## 2026-06-01
-
-**Decisions:**
-- Landing page copy goes with version B; version A kept as a backup
-
-**Preferences:**
-- Draft files live in /drafts, named with the date first
-- No pricing in any client-facing doc until sign-off
-
-**Open threads:**
-- Finish the pricing page copy
-- Review the welcome email sequence before Friday
-```
+**Do not:** narrate the conversation, write bullets longer than three lines, capture sensitive personal information unless the user explicitly asks (in Project memory mode the native privacy rules also apply), or edit or remove existing entries without flagging it.

@@ -9,8 +9,8 @@
     {
       "name": "project-memory",
       "source": "./",
-      "description": "project-init scaffolds CLAUDE.md, memory.md and lessons.md; compound-learning keeps memory current and promotes recurring corrections into lessons.",
-      "version": "0.4.0",
+      "description": "project-init scaffolds the project's files; compound-learning keeps memory current; pm-reflect runs the lesson engine, promoting recurring corrections into binding lessons on evidence.",
+      "version": "0.5.0",
       "keywords": ["memory", "project-setup", "lessons"]
     }
   ]

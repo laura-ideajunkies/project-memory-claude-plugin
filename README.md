@@ -2,32 +2,34 @@
 
 Three skills that stop agent sessions starting cold.
 
-Claude now has built-in memory in claude.ai chats, in cloud Cowork sessions and in Projects, saved as topics while you chat and held in your Claude account. That memory is not in the folder. It cannot be versioned with the work, read by a teammate or another tool, or audited line by line, and sessions that run only on your computer (legacy local-only Cowork tasks, and third-party or self-hosted desktop deployments) do not use it. A Cowork session on a local folder runs in the cloud and does use it. So decisions still get re-litigated, preferences re-stated, the same mistakes corrected twice. These three skills fix that with three plain markdown files per project folder and a routine that keeps them current - and the corrections compound: make the same mistake twice and it becomes a standing lesson the project never forgets.
+Claude now has built-in memory in claude.ai chats, in cloud Cowork sessions and in Projects, saved as topics while you chat and held in your Claude account. That memory is not in the folder. It cannot be versioned with the work, read by a teammate or another tool, or audited line by line, and sessions that run only on your computer (legacy local-only Cowork tasks, and third-party or self-hosted desktop deployments) do not use it. A Cowork session on a local folder runs in the cloud and does use it. So decisions still get re-litigated, preferences re-stated, the same mistakes corrected twice. These three skills fix that with plain markdown files per project folder and a routine that keeps them current - and the corrections compound: make the same mistake twice and it becomes a standing lesson the project never forgets.
 
-## The three files
+## The files
 
 - **`CLAUDE.md`** - standard project instruction file created by Claude Cowork/ Code; standing context. What the project is, who's involved, how to work in this folder. Loads every session.
 - **`memory.md`** - the running log. Dated entries, newest first: decisions, preferences, corrections, open threads. What was true lately.
-- **`lessons.md`** - the distillation. When a correction in memory recurs, it graduates here as one dated line. What stays true.
+- **`lessons.md`** - binding lessons, one dated line each. What stays true, read before substantial work.
+- **`pending-lessons.md`** - patterns pm-reflect has noticed but hasn't proven yet; not binding.
+- **`lesson-log.md`** - the evidence trail: what was added, elevated, expired or repeated, and why.
 
-Meeting notes versus house style guide: notes tell you what happened lately; the style guide exists so nobody repeats a mistake often enough to need notes about it.
+Meeting notes versus house style guide: notes tell you what happened lately; the style guide exists so nobody repeats a mistake often enough to need notes about it. `pending-lessons.md` and `lesson-log.md` are pm-reflect's own bookkeeping for getting from one to the other.
 
 ## The three skills
 
-**`project-init`** - run it in any new folder (Cowork cloud folder or local repo). It checks what already exists, interviews you briefly - one question at a time, skipping anything the conversation already answers - then scaffolds the three files, wired together. Idempotent: it fills gaps and never overwrites.
+**`project-init`** - run it in any new folder (Cowork cloud folder or local repo). It checks what already exists, interviews you briefly - one question at a time, skipping anything the conversation already answers - then scaffolds the files, wired together. Idempotent: it fills gaps and never overwrites.
 
-**`compound-learning`** - run it at the end of a working session, or schedule it daily. It reflects on the conversation, writes a dated entry to `memory.md` (decisions, preferences, context, corrections, open threads - never the play-by-play), and checks each new correction against the log. Second occurrence of the same underlying mistake: it writes the lesson to `lessons.md`, marks the promotion, and keeps the history.
+**`compound-learning`** - run it at the end of a working session, or schedule it daily. It reflects on the conversation and writes a dated entry to `memory.md`: decisions, preferences, context, corrections and open threads, never the play-by-play. It only records - pm-reflect decides what becomes a lesson.
 
-The promotion threshold is deliberate. A one-off correction stays in memory; a lesson is something the project keeps teaching.
+**`pm-reflect`** - the lesson engine, and the prune to compound-learning's grow. It scans the session for feedback, checks each event against `lessons.md` and `pending-lessons.md`, and tracks evidence until a pattern earns its place: a pending lesson becomes binding once it has evidence from several distinct sessions (three, by default), and one with no new evidence for a while expires. It also diagnoses repeats - a lesson that gets broken again either wasn't applied or was wrong - and reviews all the files for anything stale. Additive, evidence-backed changes (new pending lessons, evidence, elevations, expiries) apply on their own; anything destructive or judgement-based (rewriting or deleting a lesson, any hygiene prune, a `CLAUDE.md` change) waits for your explicit approval, including in an unattended run. Run it with `/pm-reflect`, or let it run as part of close-out.
 
-**`pm-reflect`** - run it occasionally (`/pm-reflect`) as the prune to compound-learning's grow. It reads all three files, flags entries that look stale - closed threads, superseded decisions, passed dates, duplicates, contradictions - and presents recommendations. Nothing is changed without your explicit approval, and unattended runs only report, never edit. Each prune leaves a dated trace in `memory.md`.
+The evidence threshold is deliberate. A one-off correction stays in memory; a lesson is something the project keeps teaching.
 
 ## How this fits with Claude's built-in memory
 
 | | Built-in memory | project-memory files |
 |---|---|---|
 | Where it lives | Your Claude account (account memory, per-project memory) | `memory.md` and `lessons.md` in the project folder |
-| Who writes it | Claude, as you chat, or when you say "remember this" | Claude, when you run compound-learning |
+| Who writes it | Claude, as you chat, or when you say "remember this" | Claude, when you run compound-learning and pm-reflect |
 | Reviewable | Settings > Your Claude > Memory, as topics | Open the file; prune with pm-reflect |
 | Travels with the work | No | Yes - commit it, share it, open it in any tool |
 | Works in computer-only sessions (legacy local-only tasks, third-party or self-hosted desktop) | No | Yes |
@@ -65,7 +67,8 @@ project-memory-claude-plugin/
 ├── skills/
 │   ├── project-init/SKILL.md
 │   ├── compound-learning/SKILL.md
-│   └── pm-reflect/SKILL.md
+│   └── pm-reflect/SKILL.md          # the lesson engine
+
 ├── dist/                    # packaged .skill files for Claude.ai / Cowork
 ├── LICENSE
 └── README.md
